@@ -11,7 +11,7 @@
 <body>
     <header></header>
     <main>
-        <div id="zhangsan">
+        <div id="main" class="wrapper">
 
         </div>
     </main>
@@ -62,42 +62,62 @@
             'e': 'www.ele.com',
             'r': 'www.renren.com',
             't': 'www.taobao.com',
-            'y': 'www.youtube.com',
-            'u': 'www.uc.com',
+            'y': 'www.youku.com',
+            'u': 'www.web.itheima.com/',
             'i': 'www.iqiyi.com',
             'o': 'www.opera.com',
             'p': 'www.paipai.com',
-            'a': 'www.acfun.com',
+            'a': 'www.swiper.com.cn',
             's': 'www.souhu.com'
         }
         var hashInLocalStorage = JSON.parse(localStorage.getItem('zzz') || 'null')
         if (hashInLocalStorage) {
             hash = hashInLocalStorage
         }
-        index = 0
+        var index = 0
         while (index < keys.length) {
-            div1 = document.createElement('div')
-            zhangsan.appendChild(div1)
+            var div1 = document.createElement('div')
+            div1.className = 'row'
+            main.appendChild(div1)
             row = keys[index]
-            index2 = 0
+            var index2 = 0
             while (index2 < row.length) {
-                div2 = document.createElement('kbd')
-                div2.textContent = row[index2]
-                buttonX = document.createElement('button')
+                var div2 = document.createElement('kbd')
+                var span = document.createElement('span')
+                span.textContent = row[index2]
+                div2.appendChild(span)
+                div2.className = 'key'
+                var buttonX = document.createElement('button')
                 buttonX.textContent = '编辑'
                 buttonX.id = row[index2]
+                var img = document.createElement('img')
+                if (hash[row[index2]]) {
+                    img.src = 'http://' + hash[row[index2]] + '/favicon.ico'
+                } else {
+                    img.src = '//i.loli.net/2017/11/10/5a05afbc5e183.png'
+                }
+                img.onerror = function(xxx) {
+                    xxx.target.src = '//i.loli.net/2017/11/10/5a05afbc5e183.png'
+                }
+
                 buttonX.onclick = function(item) {
-                    key = item.target.id
-                    console.log(key);
+                    var button2 = item['target']
+                    img2 = button2.previousSibling;
+                    key = button2.id
                     x = prompt('请输入想要跳转的网址')
-                    hash[key] = x
+                    hash[key] = x //hash变更
+                    img2.src = 'http://' + x + '/favicon.ico'
+                    img2.onerror = function(xxx) {
+                        xxx.target.src = '//i.loli.net/2017/11/10/5a05afbc5e183.png'
+                    }
                     localStorage.setItem('zzz', JSON.stringify(hash))
                 }
+                div2.appendChild(img)
                 div2.appendChild(buttonX)
                 div1.appendChild(div2)
                 index2 = index2 + 1
             }
-            index = index + 1
+            var index = index + 1
         }
         document.onkeypress = function(item) {
             key = item['key'];
